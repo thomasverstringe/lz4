@@ -90,11 +90,17 @@
 #  define MEM_INIT(p,v,s)   memset((p),(v),(s))
 #endif
 
-#ifndef LZ4_SRC_INCLUDED   /* avoid redefinition when sources are coalesced */
-#  include <stdlib.h>   /* malloc, calloc, free */
-#  define ALLOC(s)          malloc(s)
-#  define ALLOC_AND_ZERO(s) calloc(1,(s))
-#  define FREEMEM(p)        free(p)
+#if defined(LZ4_USER_MEMORY_FUNCTIONS)
+#  define ALLOC(s)          LZ4_user_malloc(s)
+#  define ALLOC_AND_ZERO(s) LZ4_user_calloc(1,(s))
+#  define FREEMEM(p)        LZ4_user_free(p)
+#else
+#   ifndef LZ4_SRC_INCLUDED   /* avoid redefinition when sources are coalesced */
+#       include <stdlib.h>   /* malloc, calloc, free */
+#       define ALLOC(s)          malloc(s)
+#       define ALLOC_AND_ZERO(s) calloc(1,(s))
+#       define FREEMEM(p)        free(p)
+#   endif
 #endif
 
 static void* LZ4F_calloc(size_t s, LZ4F_CustomMem cmem)
