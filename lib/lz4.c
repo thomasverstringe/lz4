@@ -212,12 +212,9 @@
 /* memory management functions can be customized by user project.
  * Below functions must exist somewhere in the Project
  * and be available at link time */
-void* LZ4_malloc(size_t s);
-void* LZ4_calloc(size_t n, size_t s);
-void  LZ4_free(void* p);
-# define ALLOC(s)          LZ4_malloc(s)
-# define ALLOC_AND_ZERO(s) LZ4_calloc(1,s)
-# define FREEMEM(p)        LZ4_free(p)
+# define ALLOC(s)          LZ4_user_malloc(s)
+# define ALLOC_AND_ZERO(s) LZ4_user_calloc(1,s)
+# define FREEMEM(p)        LZ4_user_free(p)
 #else
 # include <stdlib.h>   /* malloc, calloc, free */
 # define ALLOC(s)          malloc(s)
