@@ -359,6 +359,8 @@ typedef enum {
 #endif
 
 #if defined(LZ4_USER_DICT_FUNCTIONS)
+void LZ4_user_dict_memcpy(void *dst, const void *src, size_t size);
+void LZ4_user_dict_memmove(void *dst, const void *src, size_t size);
 #   define LZ4_memcpy_dict(dst, src, size) LZ4_user_dict_memcpy(dst, src, size)
 #   define LZ4_memmove_dict(dst, src, size) LZ4_user_dict_memmove(dst, src, size)
 #else
